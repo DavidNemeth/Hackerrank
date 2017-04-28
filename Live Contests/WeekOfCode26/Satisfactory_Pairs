@@ -1,0 +1,48 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+class Solution {
+    static void Main(String[] args) {
+        int n = Convert.ToInt32(Console.ReadLine());        
+        
+        int count = 0;
+        int key = 0;
+        int ret = 0;
+        Dictionary<int, string> aPairs = new Dictionary<int,string>();
+        Dictionary<int, string> bPairs = new Dictionary<int,string>();
+        for(int x = 1; x < n; x++)
+        {
+            for (int a = 1; a < n; a++)
+            {
+                if (x*a < n)
+                {
+                    string val = (x*a).ToString() + " " + a.ToString();
+                    bPairs.Add(key, val);
+                    aPairs.Add(key, val);
+                    count++;
+                    key++;
+                }
+            }
+        }
+        var hash = new HashSet<int>();
+        foreach(var aPair in aPairs)
+        {
+            foreach(var bPair in bPairs)
+            {
+                string[] arr = aPair.Value.Split(' ');
+                string[] barr = bPair.Value.Split(' ');
+                int a = Convert.ToInt32(arr[1]);
+                int b = Convert.ToInt32(barr[1]);
+                int aVal = Convert.ToInt32(arr[0]);
+                int bVal = Convert.ToInt32(barr[0]);
+                if(a < b && aVal + bVal == n)
+                {
+                    int concat = int.Parse(a.ToString() + b.ToString());
+                    hash.Add(concat);
+                    //Console.WriteLine($"concat:{concat} left:{aVal} right:{bVal} a:{a}b:{b}");                    
+                }
+            }
+        }  
+        Console.WriteLine(hash.Count);
+    }    
+}
